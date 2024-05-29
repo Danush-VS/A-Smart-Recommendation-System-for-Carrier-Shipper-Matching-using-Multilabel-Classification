@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{url_for('static' , filename='style_log.css')}}">
+</head>
+
+<body>
+  
+<div class="container" onclick="onclick">
+    <div class="top"></div>
+    <div class="bottom"></div>
+    <div class="center">
+      <h2>Please Login</h2>
+      <form action="/submit_log" method="post">
+        <input type="text" placeholder="User Id" name="uid" id="uid" />
+        <input type="password" placeholder="Password" name="pwd" id="pwd"/>
+        <input type="submit" name="submt" style="font-size: 20px; font-weight: bold;"
+        <p style="color:rgb(133, 4, 4); text-align: center;"><b>{{error}}</b></p>
+      </form>
+      <h2>&nbsp;</h2>
+    </div>
+  </div>
+</body>
+
+</html>

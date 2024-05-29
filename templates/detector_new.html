@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <title> Carrier Shipment</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+
+    <style>
+        form div input[type="text"] {
+            width: 380px;
+            height: 45px;
+            margin-left: 10px;
+            outline: none;
+            border: 1px solid black;
+            font-size: 17px;
+            padding: 5px 2px 5px 2px;
+            text-align: left;
+            border-radius: 10px;
+            color: black;
+            padding: 0px 10px;
+        }
+
+
+        form div input[type="submit"] {
+            margin-left: 20px;
+            display: inline-block;
+            text-transform: uppercase;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.623);
+            text-align: center;
+            /* padding: 16px 35px 15px 35px; */
+            font-size: 18px;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            border-radius: 3px;
+            box-shadow: 5px 15px 25px rgba(0, 0, 0, 0.3);
+            border: transparent;
+            width: 250px;
+            padding: 10px 0px;
+        }
+
+        #submit:active {
+            transform: scale(0.1);
+        }
+
+        #submit:hover {
+            letter-spacing: 4px;
+            transition: 1s ease;
+
+            border: 1px solid rgb(38, 199, 240);
+        }
+
+
+        .prediction_output {
+
+            width: 100%;
+            margin: 0 auto;
+            margin-top: 100px;
+            margin-bottom: 30px;
+        }
+
+        .prespan {
+            font-weight: bold;
+            font-size: 19px;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #046860;
+            letter-spacing: 1px;
+
+        }
+
+        .r-span {
+            font-size: 19px;
+            letter-spacing: 1px;
+            color: rgb(71, 39, 39);
+            margin-left: 3%
+        }
+
+        table td:nth-child(odd) {
+            text-align: right;
+            padding: 10px 5px;
+        }
+
+        .links a {
+            margin-left: 30px;
+        }
+
+        .l1 tr td {
+            text-align: center;
+        }
+
+        .l1 {
+            margin: auto;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="side_bar">
+        <div class="profile">
+            <div style="padding-top: 30px;">
+            </div>
+            <div class="logo">Carrier-shipper</div>
+        </div>
+        <ul>
+            <li><a href="home"><i class="fas fa-qrcode"></i>Home</a></li>
+            <li><a href="eda"><i class="fas fa-question-circle"></i>EDA</a></li>
+            <li><a class="active" href="detector"><i class="fas fa-heart"></i>Detector</a></li>
+            <li><a href="model_parameter"><i class="fas fa-address-book"></i>Model Parameters</a></li>
+            <li><a href="/"><i class="bx bx-log-out"></i>log out</a></li>
+
+        </ul>
+
+
+    </div>
+    <section>
+        <div style="padding: 10px;">
+            <div class="header_text"
+                style="text-align:center;color:#069e91;text-transform:uppercase;letter-spacing:3px">
+                Carrier Shipment
+            </div>
+
+            <div style="height: auto; width: 1000px;">
+                <form action="/submit_detector" method="post" style="text-align: center; margin: 50px;">
+                    <div>
+                        <input type="text" name="weight" id="weight" required
+                            placeholder="enter the weight of product in gms">
+
+                        <input type="text" name="price" id="price" required
+                            placeholder="enter the price of your product">
+                    </div>
+
+
+                    <div style="margin-top: 25px;">
+
+                        <input type="text" name="length" id="length" required
+                            placeholder="enter the length of your product in cms ">
+
+                        <input type="text" name="width" id="width" required
+                            placeholder="enter the width of your product in cms ">
+
+                    </div>
+
+
+
+                    <div style="margin-top: 25px;">
+
+                        <input type="text" name="height" id="height" required
+                            placeholder="enter the height of your product in cms ">
+
+                        <input type="text" name="product_category" id="product_category" required
+                            placeholder="'Electronics': 0, 'Clothing': 1, 'Toys': 2, 'Appliances': 3"
+                            title="enter product category 'Electronics': 0, 'Clothing': 1, 'Toys': 2, 'Appliances': 3">
+
+                    </div>
+
+
+                    <div style="margin-top: 25px;">
+
+                        <input type="text" name="shipping_distance" id="shipping_distance" required
+                            placeholder="enter shipping distance in kms ">
+
+                        <input type="text" name="fragility" id="fragility" required
+                            placeholder="is the product fragile?">
+
+                    </div>
+
+
+
+                    <div style="margin-top: 25px;">
+                        <input type="text" name="urgency" id="urgency" required
+                            placeholder="enter urgency of shipment on a scale of 1-5">
+                    </div>
+                    <div style="margin-top: 40px;">
+                        <input type="submit" name="submit" id="submit">
+                    </div>
+
+                </form>
+
+            </div>
+
+            {% if svm_model_recommendation %}
+            <div class="prediction_output">
+                <table style="margin: auto;">
+                    <tr>
+                        <td><span class="prespan">hybrid model recommendation :</span></td>
+                        <td><span class="r-span" id="hr">{{hybrid_model_recommendation}}</span></td>
+                    </tr>
+                </table>
+            </div>  
+            <div>
+                <p id="heading_links" style="background-color: gray; color: white; text-align: center;">Here are some of the links you may prefer</p>
+                <br>
+                <div class="links">
+
+                    <div style="text-align: center; margin-top: 30px; display:none" id="Air">
+                        <a href="https://www.airindia.com/in/en/book/cargo.html">AIR INDIA CARGO</a>
+
+                        <a href="https://www.spicexpress.com/getPage?slug=contact-us">SPICE EXPRESS</a>
+
+                        <a href="https://www.bluedart.com/blue-dart-aviation">BLUE DART AVIATION</a>
+                    </div>
+
+                    <div style="text-align: center; margin-top:30px ;display:none" id="Sea">
+                        <a href="https://www.shipindia.com/services/servicepage/vessel-availability">SHIPPING
+                            CORPORATION
+                            OF
+                            INDIA</a>
+                        <a href="https://www.sugamgroup.com/multimodal-transportation/#ship">SUGAM GROUP</a>
+                        <a href="https://www.shippingsolutions.com/pricing">SHIPPING SOLUTION CHART</a>
+                    </div>
+                </div>
+            </div>
+            <div id="Land" style="display: none;">
+                <table border="1" cellspacing="0" cellpadding="10px" class="l1">
+
+                    <caption>BlueDart Costs</caption>
+                    <th>Weight Category (kg)</th>
+                    <th>Dart Apex (Estimated Cost per kg)</th>
+                    <th>Dart Express (Estimated Cost per kg)</th>
+                    <th>Dart Economy (Estimated Cost per kg)</th>
+
+
+
+                    <tr>
+                        <td>Up to 0.5</td>
+                        <td>₹2,500-3,500</td>
+                        <td>₹1,500-2,500</td>
+                        <td>₹1,000-₹1,500</td>
+                    </tr>
+                    <tr>
+                        <td>0.51-1</td>
+                        <td>₹2,000-₹3,000</td>
+                        <td>₹1,200-2,200</td>
+                        <td>₹800-₹1,200</td>
+                    </tr>
+                    <tr>
+                        <td>1.1-5</td>
+                        <td>₹1,500-2,500</td>
+                        <td>₹1,000-1,800</td>
+                        <td>₹600-₹1,000</td>
+                    </tr>
+                    <tr>
+                        <td>5.1-10</td>
+                        <td>₹1,200-2,000</td>
+                        <td>₹800-₹1,500</td>
+                        <td>₹400-₹800</td>
+                    </tr>
+                    <tr>
+                        <td>10.1-20</td>
+                        <td>₹1,000-₹1,500</td>
+                        <td>₹600-₹1,200</td>
+                        <td>₹300-₹600</td>
+                    </tr>
+                    <tr>
+                        <td>20.1-30</td>
+                        <td>₹800-₹1,200</td>
+                        <td>₹500-₹1,000</td>
+                        <td>₹200-₹400</td>
+                    </tr>
+                    <tr>
+                        <td>30.1-50</td>
+                        <td>₹600-₹800</td>
+                        <td>₹400-₹800</td>
+                        <td>₹150-₹300</td>
+                    </tr>
+                    <tr>
+                        <td>50.1+</td>
+                        <td>Signup Now</td>
+                        <td>Signup Now</td>
+                        <td>Signup Now</td>
+                    </tr>
+
+                </table>
+                <br><br><br>
+                <table class="l1" border="1" cellspacing="0" cellpadding="10px">
+                    <caption>DTDC Plus Service</caption>
+                    <thead>
+                        <tr>
+                            <th>Weight Category</th>
+                            <th>DTDC Lite (INR)</th>
+                            <th>DTDC Plus (INR)</th>
+                            <th>DTDC Prime (INR)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Up to 500g</td>
+                            <td>40-100</td>
+                            <td>60-150</td>
+                            <td>80-250</td>
+                        </tr>
+                        <tr>
+                            <td>500g-1kg</td>
+                            <td>100-200</td>
+                            <td>150-250</td>
+                            <td>250-350</td>
+                        </tr>
+                        <tr>
+                            <td>1kg-2kg</td>
+                            <td>200-300</td>
+                            <td>250-350</td>
+                            <td>350-450</td>
+                        </tr>
+                        <tr>
+                            <td>2kg-3kg</td>
+                            <td>300-400</td>
+                            <td>350-450</td>
+                            <td>450-550</td>
+                        </tr>
+                        <tr>
+                            <td>3kg-5kg</td>
+                            <td>400-500</td>
+                            <td>450-550</td>
+                            <td>550-650</td>
+                        </tr>
+                        <tr>
+                            <td>Above 5kg</td>
+                            <td>+100 per kg</td>
+                            <td>+100 per kg</td>
+                            <td>+150 per kg</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <br><br><br>
+                <table class="l1" border="1" cellspacing="0" cellpadding="10px">
+                    <caption>Weight of Grains</caption>
+                    <thead>
+                        <tr>
+                            <th rowspan="2">Weight (Within Municipal Limits)</th>
+                            <th colspan="4">Distance (Kms)</th>
+                        </tr>
+                        <tr>
+                            <th>Upto 200</th>
+                            <th>201-1000</th>
+                            <th>1001-2000</th>
+                            <th>Above 2000</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Up to 50 Gms</th>
+                            <td>₹ 18.00</td>
+                            <td>₹ 41.00</td>
+                            <td>₹ 41.00</td>
+                            <td>₹ 41.00</td>
+                        </tr>
+                        <tr>
+                            <th>51 Grams to 200 Grams</th>
+                            <td>₹ 30.00</td>
+                            <td>₹ 41.00</td>
+                            <td>₹ 47.00</td>
+                            <td>₹ 71.00</td>
+                        </tr>
+                        <tr>
+                            <th>201 Grams to 500 Grams</th>
+                            <td>₹ 35.00</td>
+                            <td>₹ 59.00</td>
+                            <td>₹ 71.00</td>
+                            <td>₹ 94.00</td>
+                        </tr>
+                        <tr>
+                            <th>501 Grams to 1000 Gram</th>
+                            <td>₹ 47.00</td>
+                            <td>₹ 77.00</td>
+                            <td>₹ 106.00</td>
+                            <td>₹ 142.00</td>
+                        </tr>
+                        <tr>
+                            <th>1001 Grams to 1500 Grams</th>
+                            <td>₹ 59.00</td>
+                            <td>₹ 94.00</td>
+                            <td>₹ 142.00</td>
+                            <td>₹ 189.00</td>
+                        </tr>
+                        <tr>
+                            <th>1501 Grams to 2000 Grams</th>
+                            <td>₹ 71.00</td>
+                            <td>₹ 112.00</td>
+                            <td>₹ 177.00</td>
+                            <td>₹ 236.00</td>
+                        </tr>
+                        <tr>
+                            <th>2001 Grams to 2500 Grams</th>
+                            <td>₹ 83.00</td>
+                            <td>₹ 130.00</td>
+                            <td>₹ 212.00</td>
+                            <td>₹ 283.00</td>
+                        </tr>
+                        <tr>
+                            <th>2501 Grams to 3000 Grams</th>
+                            <td>₹ 94.00</td>
+                            <td>₹ 148.00</td>
+                            <td>₹ 248.00</td>
+                            <td>₹ 330.00</td>
+                        </tr>
+                        <tr>
+                            <th>3001 Grams to 3500 Grams</th>
+                            <td>₹ 106.00</td>
+                            <td>₹ 165.00</td>
+                            <td>₹ 283.00</td>
+                            <td>₹ 378.00</td>
+                        </tr>
+                        <tr>
+                            <th>3501 Grams to 4000 Grams</th>
+                            <td>₹ 118.00</td>
+                            <td>₹ 183.00</td>
+                            <td>₹ 319.00</td>
+                            <td>₹ 425.00</td>
+                        </tr>
+                        <tr>
+                            <th>4001 Grams to 4500 Grams</th>
+                            <td>₹ 130.00</td>
+                            <td>₹ 201.00</td>
+                            <td>₹ 354.00</td>
+                            <td>₹ 472.00</td>
+                        </tr>
+                        <tr>
+                            <th>4501 Grams to 5000 Grams</th>
+                            <td>₹ 142.00</td>
+                            <td>₹ 218.00</td>
+                            <td>₹ 389.00</td>
+                            <td>₹ 519.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+
+            </div>
+
+
+            {% endif %}
+            <br><br><br><br>
+    </section>
+
+    <script>
+        var recommendation = document.getElementById('hr').innerText;
+        if (recommendation == 'Land') {
+            document.getElementById('heading_links').innerText = "Here Are Some Tables You Might Want To Visit";
+        }
+        document.getElementById(recommendation).style.display = 'block';
+    </script>
+    
+</body>
+
+</html>

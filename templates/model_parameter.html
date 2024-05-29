@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<!-- Created By CodingNepal - www.codingnepalweb.com -->
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <title> Carrier Shipment </title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+</head>
+
+<body>
+    <div class="side_bar">
+        <div class="profile">
+            <div style="padding-top: 30px;">
+
+            </div>
+            <div class="logo">Carrier Shipment </div>
+        </div>
+
+        <ul>
+            <li><a href="home"><i class="fas fa-qrcode"></i>Home</a></li>
+            <li><a href="eda"><i class="fas fa-question-circle"></i>EDA</a></li>
+            <li><a href="detector"><i class="fas fa-heart"></i>Detector</a></li>
+            <li><a class="active" href="model_parameter"><i class="fas fa-address-book"></i>Model Parameters</a></li>
+            <li><a href="/"><i class="bx bx-log-out"></i>log out</a></li>
+        </ul>
+
+
+    </div>
+    <section>
+        <div style="padding: 10px;">
+            <div class="header_text"
+                style="text-align:center;color:#069e91;text-transform:uppercase;letter-spacing:3px;">
+                Model Parameters
+            </div>
+            <div style="font-size:28px;font-weight:bolder;color:black;padding:20px 0px; margin-left: 30px;">
+                1. SVM
+            </div>
+
+            <div style="width:700px;margin:0px auto;text-align:center;margin-top:30px">
+
+                <div style="text-align:center">
+                    <img src="{{ url_for('static', filename='/model_parameters/1_svm_classification_report.png') }}"
+                        alt="eda1 picture" height="500" width="700">
+                </div>
+                <div style="margin-top:20px;margin-bottom:20px;"> fig. classification report of <b>SVM</b>
+                    model on test data</div>
+
+                <div style="text-align:center">
+                    <img src="{{ url_for('static', filename='/model_parameters/1_svm_confusion_matrix.png') }}"
+                        alt="eda1 picture" height="600" width="700">
+                </div>
+                <div style="margin-top:20px;margin-bottom:20px;"> fig. confusion matrix of <b>SVM</b> model
+                    on test data</div>
+                <br>
+                <hr>
+                <br>
+
+            </div>
+            <div style="font-size:30px;font-weight:bolder;color:black;padding:20px 0px; margin-left: 30px;">
+                2.RANDOM FOREST
+            </div>
+
+
+            <div style="width:700px;margin:0px auto;text-align:center;margin-top:30px">
+
+                <div style="text-align:center">
+                    <img src="{{ url_for('static', filename='/model_parameters/2_rf_classification_report.png') }}"
+                        alt="eda1 picture" height="500" width="700">
+                </div>
+                <div style="margin-top:20px;margin-bottom:20px;"> fig. classification report of <b>Random Forest</b>
+                    model on test data</div>
+
+                <div style="text-align:center">
+                    <img src="{{ url_for('static', filename='/model_parameters/2_rf_confusion_matrix.png') }}"
+                        alt="eda1 picture" height="600" width="700">
+                </div>
+                <div style="margin-top:20px;margin-bottom:20px;"> fig. confusion matrix of <b>Random Forest</b> model on
+                    test data</div>
+                <br>
+                <hr>
+                <br>
+            </div>
+
+            <div style="font-size:30px;font-weight:bolder;color:black;padding:20px 0px; margin-left: 30px;">
+                3. DECISION TREE
+            </div>
+
+            <div style="width:700px;margin:0px auto;text-align:center;margin-top:30px">
+                <div style="text-align:center">
+                    <img src="{{ url_for('static', filename='/model_parameters/3_dt_classification_report.png') }}"
+                        alt="eda1 picture" height="500" width="700">
+                </div>
+                <div style="margin-top:20px;margin-bottom:20px;"> fig. classification report of <b>Decision Tree</b> model on test
+                    data</div>
+
+                <div style="text-align:center">
+                    <img src="{{ url_for('static', filename='/model_parameters/3_dt_confusion_matrix.png') }}"
+                        alt="eda1 picture" height="600" width="700">
+                </div>
+                <div style="margin-top:20px;margin-bottom:20px;"> fig. confusion matrix of <b>Decision Tree</b> model on test data
+                </div>
+                <br>
+                <hr>
+                <br>
+            </div>
+
+            <div style="font-size:30px;font-weight:bolder;color:black;padding:20px 0px; margin-left: 30px;">
+                4.HYBRID MODEL
+            </div>
+
+
+            <div style="width:700px;margin:0px auto;text-align:center;margin-top:30px">
+
+                <div style="text-align:center">
+                    <img src="{{ url_for('static', filename='/model_parameters/4_hybrid_model_classification_report.png') }}"
+                        alt="eda1 picture" height="500" width="700">
+                </div>
+                <div style="margin-top:20px;margin-bottom:20px;"> fig. classification report of <b>Hybrid Model</b>
+                    model on test data</div>
+
+                <div style="text-align:center">
+                    <img src="{{ url_for('static', filename='/model_parameters/4_hybrid_model_confusion_matrix.png') }}"
+                        alt="eda1 picture" height="600" width="700">
+                </div>
+                <div style="margin-top:20px;margin-bottom:20px;"> fig. confusion matrix of <b>Hybrid Model</b> model on
+                    test data</div>
+                <br>
+                <hr>
+                <br>
+            </div>
+
+        </div>
+
+    </section>
+</body>
+
+</html>
